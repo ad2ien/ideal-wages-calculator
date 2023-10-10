@@ -12,7 +12,7 @@ fn App() -> Html {
 
     html! {
         <div>
-            <Slider on_slide={on_slide} />
+            <Slider on_slide={on_slide} default_value={50} />
         </div>
     }
 }
