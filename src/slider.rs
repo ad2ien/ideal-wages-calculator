@@ -27,9 +27,12 @@ pub fn Slider(props: &Props) -> Html {
     };
 
     html! {
-        <>
-            <input type="range" min="1" max="100" value={input_value.clone()} oninput={on_change} />
-            { input_value }
-        </>
+        <div class="parameter">
+            <div class="sliderLabel">{  props.salary_param.label }</div>
+            <div class="sliderDiv">
+                <input type="range" min="1" max="100" value={input_value.clone()} oninput={on_change} />
+                <div class="sliderValue">{ input_value }</div>
+            </div>
+        </div>
     }
 }

@@ -8,28 +8,55 @@ body {
   align-items: center;
   display: flex;
   justify-content: center;
-
-  background: linear-gradient(to bottom right, #444444, #009a5b);
-  font-size: 1.5rem;
+  background: linear-gradient(to bottom right, #332d2d, #c0ddce);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-main {
-  color: #fff6d5;
-  font-family: sans-serif;
-  text-align: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 }
 
-.logo {
-  height: 20em;
+.parameters {
+  background: #f2f7f8c5;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  width: 100%;
+  max-width: 30rem;
 }
 
-.heart:after {
-  content: "❤️";
-
-  font-size: 1.75em;
+.parameter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
-h1 + .subtitle {
-  display: block;
-  margin-top: -1em;
+.sliderDiv {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
+
+.sliderLabel {
+  font-size: 1rem;
+}
+
+.sliderValue {
+  font-size: 0.8rem;
+  align-items: center;
+}
+.result{
+  margin: 0.5rem;
+  background: #f2f7f8c5;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
+  padding: 2rem;
+  width: 100%;
+  max-width: 30rem;
+}
+

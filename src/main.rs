@@ -30,19 +30,22 @@ const DATA: [&'static SalaryParam; 3] = [
 #[function_component]
 fn App() -> Html {
     html! {
-        <div>
-        { for DATA.into_iter().map(|param| {
-
-            let on_slide: Callback<i8> = Callback::from(move |value: i8| {
-                info!("Value {:?}", value);
-            });
-            html! {
-                <div>
-                    <Slider on_slide={on_slide} salary_param={*param} />
-                </div>
-            }
-        }
-        )}
+        <div class="container">
+            <div class="parameters">
+            { for DATA.into_iter().map(|param| {
+                let on_slide: Callback<i8> = Callback::from(move |value: i8| {
+                    info!("Value {:?}", value);
+                });
+                html! {
+                    <div>
+                        <Slider on_slide={on_slide} salary_param={*param} />
+                    </div>
+                }
+            })}
+            </div>
+            <div class="result">
+                <span>{"Result :"}</span>
+            </div>
         </div>
     }
 }
