@@ -3,6 +3,8 @@ use salary_param::SalaryParam;
 use slider::Slider;
 use yew::prelude::*;
 
+use crate::slider::SliderMessage;
+
 mod salary_param;
 mod slider;
 
@@ -29,16 +31,24 @@ const DATA: [&'static SalaryParam; 3] = [
 
 #[function_component]
 fn App() -> Html {
+    // let app_state = use_state(|| DATA.to_vec());
+    let app_state = use_state(|| DATA.to_vec());
+    let new_state = app_state.clone();
+
+    let on_slide: Callback<SliderMessage> = {
+        Callback::from(move |msg: SliderMessage| {
+        info!("Value {:?} {:?}",msg.id, msg.value);
+        new_state.set(
+            DATA.to_vec());
+    })};
+
     html! {
         <div class="container">
             <div class="parameters">
-            { for DATA.into_iter().map(|param| {
-                let on_slide: Callback<i8> = Callback::from(move |value: i8| {
-                    info!("Value {:?}", value);
-                });
+            { for (*app_state).clone().into_iter().map(|param: &SalaryParam| {
                 html! {
                     <div>
-                        <Slider on_slide={on_slide} salary_param={*param} />
+                        <Slider on_slide={on_slide.clone()} salary_param={*param} />
                     </div>
                 }
             })}
