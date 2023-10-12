@@ -1,4 +1,4 @@
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub struct SalaryParam {
     pub id: &'static str,
     pub label: &'static str,
