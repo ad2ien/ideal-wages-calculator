@@ -1,0 +1,44 @@
+[
+  {
+    "id": "hate",
+    "label": "How much I hate what I'm doing?",
+    "description": "0: you hate everything you're doing, 10: you save the world... and you think the world is worth saving",
+    "coefficient": 1.0
+  },
+  {
+    "id": "body_destruction",
+    "label": "How much I destroy my body at work?",
+    "description": "Even if it should be taken care of at a society level",
+    "coefficient": 1.5
+  },
+  {
+    "id": "pain",
+    "label": "How much pain I get from doing my job?",
+    "description": "Pain could be effort, sweating, waiting in the cold or anything non pleasant and not damageable",
+    "coefficient": 1.2
+  },
+  {
+    "id": "mental",
+    "label": "How much I'm emotionally impacted by my work?",
+    "description": "How much of your mental workload you bring home",
+    "coefficient": 1.0
+  },
+  {
+    "id": "value",
+    "label": "How much value I bring with my work?",
+    "description": "The value created by your work : how many and how much people take advantage of your work",
+    "coefficient": 1.0
+  },
+  {
+    "id": "skills",
+    "label": "How rare are my skills?",
+    "description": "How easily you can be replaced by someone else",
+    "coefficient": 1.0
+  },
+  {
+    "id": "training",
+    "label": "How much I sacrifice to train my skills?",
+    "description": "100: you had to give up your life and the one of your kids to eat only noodles and mustard for 3 years?",
+    "coefficient": 1.0
+  }
+]
