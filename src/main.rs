@@ -4,19 +4,19 @@ use wasm_bindgen::JsCast;
 use web_sys::{EventTarget, HtmlInputElement};
 use yew::prelude::*;
 
-use crate::{slider::SliderMessage, header::Header};
+use crate::{header::Header, slider::SliderMessage};
 
+mod header;
 mod salary_param;
 mod slider;
-mod header;
 
 const PARAMETERS_MEANING: i8 = 10;
 
 const DATA: [SalaryParam; 7] = [
     SalaryParam {
         id: "like",
-        label: "How much I like my job?",
-        coefficient: -1.0,
+        label: "How much I hate what I'm doing?",
+        coefficient: 1.0,
         value: 50,
     },
     SalaryParam {
@@ -94,21 +94,31 @@ fn App() -> Html {
     html! {
         <div class="container">
             <Header />
-            <div class="contentBlock">
-                <span>{"Base salary : "}</span>
-                <input type="text" value={input_base_salary.to_string()} oninput={on_base_change} />
+            <div class="w3-row firstRow">
+                <div class="w3-half contentBlock">
+                    <form class="w3-container">
+                        <label>{"Base salary : "}</label>
+                        <input class="w3-border w3-round-large parameterTextInput" type="number" value={input_base_salary.to_string()} oninput={on_base_change} />
+                        <label>{"€"}</label>
+                    </form>
+                </div>
+                <div class="w3-half contentBlock">
+                        <span>{"Result : "}{result.to_string()}{"€"}</span>
+                </div>
             </div>
             <div class="contentBlock">
-            { for (*app_state).clone().into_iter().map(|param: SalaryParam| {
-                html! {
-                    <div>
-                        <Slider on_slide={on_slide.clone()} salary_param={param} />
-                    </div>
-                }
-            })}
-            </div>
-            <div class="contentBlock">
-                <span>{"Result : "}{result.to_string()}</span>
+                <div class="w3-row parameterHeader">
+                    <div class="w3-half">{ "Criteria" }</div>
+                    <div class="w3-quarter">{ "my job" }</div>
+                    <div class="w3-quarter">{ "How it maters" }</div>
+                </div>
+                { for (*app_state).clone().into_iter().map(|param: SalaryParam| {
+                    html! {
+                        <div>
+                            <Slider on_slide={on_slide.clone()} salary_param={param} />
+                        </div>
+                    }
+                })}
             </div>
         </div>
     }

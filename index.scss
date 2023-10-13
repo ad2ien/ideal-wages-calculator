@@ -1,3 +1,5 @@
+// @import url("https://www.w3schools.com/w3css/4/w3.css");
+
 html,
 body {
   margin: 0;
@@ -19,6 +21,15 @@ body {
   padding: 2rem;
 }
 
+.firstRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100% !important;
+  margin-bottom: 1rem;
+
+}
+
 .contentBlock {
   margin: 0.5rem;
   background: #f2f7f8c5;
@@ -26,7 +37,7 @@ body {
   box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
   padding: 2rem;
   width: 100%;
-  max-width: 50rem;
+  height: 100%;
 }
 
 .parameter {
@@ -40,18 +51,36 @@ body {
   align-items: center;
   display: flex;
   flex-direction: column;
+  padding-left: 1rem;
 }
 
 .sliderLabel {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .sliderValue {
-  font-size: 0.8rem;
+  margin: 0.2rem 0rem 0.5rem;
+  font-size: 0.7rem;
   align-items: center;
 }
+
+.coefSlider{
+  width: 50%;
+}
+
 .title {
   font-size: 1.1rem;
   margin-bottom: 1rem;
 }
 
+.parameterHeader{
+  font-size: 1.1rem;
+  text-align: center;
+  font-weight: bold;
+}
+
+.parameterTextInput{
+  // @extend .w3-border;
+  // @extend .w3-round-large;
+  width: 5.4rem;
+}

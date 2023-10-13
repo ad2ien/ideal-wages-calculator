@@ -59,14 +59,14 @@ pub fn Slider(props: &Props) -> Html {
     };
 
     html! {
-        <div class="parameter">
-            <div class="sliderLabel">{  salary_param.label }</div>
-            <div class="sliderDiv">
+        <div class="w3-row">
+            <div class="w3-half w3-container">{  salary_param.label }</div>
+            <div class="sliderDiv w3-quarter">
                 <input type="range" min="0" max="100" value={input_value.clone()} oninput={on_value_change} />
                 <div class="sliderValue">{ input_value }</div>
             </div>
-            <div class="sliderDiv">
-                <input type="range" min="-2" max="2" step="0.1" value={coef_value.clone()} oninput={on_coef_change} />
+            <div class="sliderDiv w3-quarter">
+                <input class="coefSlider" type="range" min="-2" max="2" step="0.1" value={coef_value.clone()} oninput={on_coef_change} />
                 <div class="sliderValue">{ coef_value }</div>
             </div>
         </div>
