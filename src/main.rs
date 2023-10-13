@@ -4,29 +4,54 @@ use wasm_bindgen::JsCast;
 use web_sys::{EventTarget, HtmlInputElement};
 use yew::prelude::*;
 
-use crate::slider::SliderMessage;
+use crate::{slider::SliderMessage, header::Header};
 
 mod salary_param;
 mod slider;
+mod header;
 
-const DATA: [SalaryParam; 3] = [
+const DATA: [SalaryParam; 7] = [
     SalaryParam {
-        id: "salary",
-        label: "Salary",
+        id: "like",
+        label: "How much I like my job?",
+        coefficient: -1.0,
+        value: 50,
+    },
+    SalaryParam {
+        id: "body",
+        label: "How much I destroy my body at work?",
         coefficient: 1.0,
         value: 50,
     },
     SalaryParam {
-        id: "bonus",
-        label: "Bonus",
-        coefficient: 0.5,
-        value: 100,
+        id: "pain",
+        label: "How much pain I get from doing my job?",
+        coefficient: 1.0,
+        value: 50,
     },
     SalaryParam {
-        id: "tax",
-        label: "Tax",
-        coefficient: 0.2,
-        value: 100,
+        id: "pain",
+        label: "How much I'm emotionally impacted by my work?",
+        coefficient: 1.0,
+        value: 50,
+    },
+    SalaryParam {
+        id: "value",
+        label: "How much value I bring with my work?",
+        coefficient: 1.0,
+        value: 50,
+    },
+    SalaryParam {
+        id: "skills",
+        label: "How rare are my skills?",
+        coefficient: 1.0,
+        value: 50,
+    },
+    SalaryParam {
+        id: "training",
+        label: "How much I sacrifice to train my skills?",
+        coefficient: 1.0,
+        value: 50,
     },
 ];
 
@@ -46,7 +71,7 @@ fn App() -> Html {
             result_clone.set(compute_result((*new_state).clone(), input_base_salary));
         })
     };
-    
+
     let result_clone_base = result.clone();
     let new_state_base = app_state.clone();
     let on_base_change = {
@@ -55,7 +80,7 @@ fn App() -> Html {
         Callback::from(move |e: InputEvent| {
             let target: Option<EventTarget> = e.target();
             let input = target.and_then(|t| t.dyn_into::<HtmlInputElement>().ok());
-            
+
             if let Some(input) = input {
                 let base_salary = input.value().parse::<i32>().expect("expected number");
                 base_salary_handle.set(base_salary);
@@ -66,10 +91,11 @@ fn App() -> Html {
 
     html! {
         <div class="container">
-        <div class="contentBlock">
-            <span>{"Base salary : "}</span>
-            <input type="text" value={input_base_salary.to_string()} oninput={on_base_change} />
-        </div>
+            <Header />
+            <div class="contentBlock">
+                <span>{"Base salary : "}</span>
+                <input type="text" value={input_base_salary.to_string()} oninput={on_base_change} />
+            </div>
             <div class="contentBlock">
             { for (*app_state).clone().into_iter().map(|param: SalaryParam| {
                 html! {
