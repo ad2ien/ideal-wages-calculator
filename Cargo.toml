@@ -1,11 +1,11 @@
 [package]
-name = "trunk-template"
+name = "ideal-wages-calculator"
 version = "0.1.0"
 edition = "2021"
-description = "Template for starting a Yew project using Trunk"
+description = "A webassembly project using trunk and yew to realise injustices in range of wages"
 readme = "README.md"
-repository = "https://github.com/yewstack/yew-trunk-minimal-template"
-license = "MIT OR Apache-2.0"
+repository = "https://github.com/ad2ien/ideal-wages-calculator"
+license = "MIT"
 keywords = ["yew", "trunk"]
 categories = ["gui", "wasm", "web-programming"]
 
@@ -22,7 +22,6 @@ features = [
     "console",
     "Document",
     "HtmlElement",
-    "MouseEvent",
     "DomRect",
     "EventTarget",
     "HtmlInputElement"

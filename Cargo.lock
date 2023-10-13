@@ -381,6 +381,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "ideal-wages-calculator"
+version = "0.1.0"
+dependencies = [
+ "log",
+ "wasm-bindgen",
+ "wasm-logger",
+ "web-sys",
+ "yew",
+]
+
+[[package]]
 name = "implicit-clone"
 version = "0.3.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -759,17 +770,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0955b8137a1df6f1a2e9a37d8a6656291ff0297c1a97c24e0d8425fe2312f79a"
 dependencies = [
  "once_cell",
-]
-
-[[package]]
-name = "trunk-template"
-version = "0.1.0"
-dependencies = [
- "log",
- "wasm-bindgen",
- "wasm-logger",
- "web-sys",
- "yew",
 ]
 
 [[package]]
