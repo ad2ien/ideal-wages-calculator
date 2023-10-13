@@ -10,6 +10,8 @@ mod salary_param;
 mod slider;
 mod header;
 
+const PARAMETERS_MEANING: i8 = 10;
+
 const DATA: [SalaryParam; 7] = [
     SalaryParam {
         id: "like",
@@ -30,7 +32,7 @@ const DATA: [SalaryParam; 7] = [
         value: 50,
     },
     SalaryParam {
-        id: "pain",
+        id: "mental",
         label: "How much I'm emotionally impacted by my work?",
         coefficient: 1.0,
         value: 50,
@@ -119,15 +121,16 @@ fn compute_state(state: Vec<SalaryParam>, slider_message: SliderMessage) -> Vec<
         .find(|param| param.id == slider_message.id)
         .unwrap();
     param.value = slider_message.value;
+    param.coefficient = slider_message.coef;
     new_state
 }
 
 fn compute_result(state: Vec<SalaryParam>, base: i32) -> f64 {
-    let mut result = 0.0;
+    let mut variable_wage_part = 0.0;
     for param in state {
-        result += param.coefficient * param.value as f64;
+        variable_wage_part += param.coefficient * param.value as f64;
     }
-    result + base as f64
+    (variable_wage_part as f64 * PARAMETERS_MEANING as f64 + base as f64).round()
 }
 
 fn main() {
