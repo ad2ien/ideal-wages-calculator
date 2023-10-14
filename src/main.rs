@@ -1,7 +1,9 @@
+use gloo_net::http::Request;
 use salary_param::SalaryParam;
 use slider::Slider;
 use wasm_bindgen::JsCast;
 use web_sys::{EventTarget, HtmlInputElement};
+use yew::functional::use_effect;
 use yew::prelude::*;
 
 use crate::{
@@ -18,22 +20,18 @@ mod salary_param;
 mod slider;
 
 const PARAMETERS_MEANING: i8 = 10;
+const CRITERIAS_URL: &str = "http://localhost:1984/criterias";
 
 #[function_component]
 fn App() -> Html {
     let parameter_state = use_state(|| DATA.to_vec());
-    let criterias_state = use_state(|| criterias::CRITERIAS.to_vec());
+    let criterias_state = use_state(|| [].to_vec());
     let base_salary_state = use_state(|| 1000);
     let input_base_salary_state = (*base_salary_state).clone();
-    let result_state = use_state(|| {
-        compute_result(
-            (*parameter_state).clone(),
-            (*criterias_state).clone(),
-            input_base_salary_state.clone(),
-        )
-    });
+    let result_state = use_state(|| 0.0);
 
     let result_clone_2 = result_state.clone();
+    let result_clone_3 = result_state.clone();
 
     let criterias_state_2 = criterias_state.clone();
     let criterias_state_3 = criterias_state.clone();
@@ -46,6 +44,31 @@ fn App() -> Html {
     let parameter_state_2 = parameter_state.clone();
     let parameter_state_3 = parameter_state.clone();
     let parameter_state_4 = parameter_state.clone();
+    let parameter_state_5 = parameter_state.clone();
+
+    use_effect(move || {
+        if (*criterias_state).len() == 0 {
+            wasm_bindgen_futures::spawn_local(async move {
+                let fetched_criteria: Vec<Criteria> =
+                    Request::get(CRITERIAS_URL)
+                        .send()
+                        .await
+                        .unwrap()
+                        .json()
+                        .await
+                        .unwrap();
+                criterias_state.set(fetched_criteria.clone());
+                result_clone_3.set(compute_result(
+                    (*parameter_state_5).clone(),
+                    fetched_criteria.clone(),
+                    input_base_salary_state.clone(),
+                ));
+            });
+            || ()
+        } else {
+            || ()
+        }
+    });
 
     let on_slide: Callback<SliderMessage> = {
         Callback::from(move |msg: SliderMessage| {
@@ -137,6 +160,9 @@ fn App() -> Html {
 }
 
 fn compute_result(state: Vec<SalaryParam>, criterias: Vec<Criteria>, base: i32) -> f64 {
+    if criterias.len() == 0 {
+        return 0.0;
+    }
     let variable_wage_part = state.clone().into_iter().fold(0.0, |acc, param| {
         acc + (param.value as f64
             * criterias

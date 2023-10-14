@@ -7,7 +7,7 @@ pub const DATA: [SalaryParam; 7] = [
         value: 50,
     },
     SalaryParam {
-        id: "body",
+        id: "body_destruction",
         value: 50,
     },
     SalaryParam {
