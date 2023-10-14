@@ -49,14 +49,13 @@ fn App() -> Html {
     use_effect(move || {
         if (*criterias_state).len() == 0 {
             wasm_bindgen_futures::spawn_local(async move {
-                let fetched_criteria: Vec<Criteria> =
-                    Request::get(CRITERIAS_URL)
-                        .send()
-                        .await
-                        .unwrap()
-                        .json()
-                        .await
-                        .unwrap();
+                let fetched_criteria: Vec<Criteria> = Request::get(CRITERIAS_URL)
+                    .send()
+                    .await
+                    .unwrap()
+                    .json()
+                    .await
+                    .unwrap();
                 criterias_state.set(fetched_criteria.clone());
                 result_clone_3.set(compute_result(
                     (*parameter_state_5).clone(),
@@ -70,7 +69,7 @@ fn App() -> Html {
         }
     });
 
-    let on_slide: Callback<SliderMessage> = {
+    let on_param_value_slide: Callback<SliderMessage> = {
         Callback::from(move |msg: SliderMessage| {
             let mut state = (*parameter_state_2).clone();
             let param = state
@@ -80,7 +79,7 @@ fn App() -> Html {
             param.value = msg.value;
             parameter_state_2.set(state.to_vec());
             result_clone_2.set(compute_result(
-                (*parameter_state_2).clone(),
+                state.clone(),
                 (*criterias_state_2).clone(),
                 input_base_salary_state.clone(),
             ));
@@ -98,7 +97,7 @@ fn App() -> Html {
             criterias_state_3.set(crit_state.to_vec());
             result_state_2.set(compute_result(
                 (*parameter_state_3).clone(),
-                (*criterias_state_3).clone(),
+                crit_state.clone(),
                 input_base_salary_state.clone(),
             ));
         })
@@ -150,7 +149,7 @@ fn App() -> Html {
                     let param = (*parameter_state).clone().into_iter().find(|param| param.id == criteria.id).unwrap();
                     html! {
                         <div>
-                            <Slider on_parameter_slide={on_slide.clone()} on_coef_slide={on_coef_slide.clone()} salary_param={param} criteria={criteria} />
+                            <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} salary_param={param} criteria={criteria} />
                         </div>
                     }
                 })}

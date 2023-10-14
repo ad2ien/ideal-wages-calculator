@@ -11,6 +11,7 @@ pub struct Props {
     pub criteria: Criteria,
 }
 
+#[derive(Debug)]
 pub struct SliderMessage {
     pub id: String,
     pub value: i8,
@@ -35,7 +36,7 @@ pub fn Slider(props: &Props) -> Html {
     let on_value_change = {
         Callback::from(move |e: InputEvent| {
             let input = e.target_dyn_into::<HtmlInputElement>();
-
+            
             if let Some(input) = input {
                 input_value_handle.set(input.value());
                 cb_value_handle.emit( SliderMessage { 
