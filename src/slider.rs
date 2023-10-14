@@ -30,6 +30,7 @@ pub fn Slider(props: &Props) -> Html {
     let coef_value = (*coef_value_handle).clone();
 
     let salary_param = props.salary_param.clone();
+    let salary_param_2 = props.salary_param.clone();
     let criteria = props.criteria.clone();
     
     let cb_value_handle = props.on_parameter_slide.clone();
@@ -55,7 +56,7 @@ pub fn Slider(props: &Props) -> Html {
             if let Some(input) = input {
                 coef_value_handle.set(input.value());
                 cb_coef_handle.emit( SliderCoefMessage { 
-                    id: salary_param.id.to_string(),
+                    id: salary_param_2.id.to_string(),
                     coef: input.value().parse::<f64>().expect("expected number")
                  });
             }

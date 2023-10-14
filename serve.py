@@ -19,6 +19,13 @@ def criterias():
         data = json.load(file)
         return data
 
+@app.route('/params')
+def params():
+    print("get params")
+
+    with open('data.csv', 'r') as file:
+        content = file.read()
+        return content
 
 if __name__ == '__main__':
     app.run(port=1984)

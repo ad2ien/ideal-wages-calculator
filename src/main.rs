@@ -145,14 +145,22 @@ fn App() -> Html {
                     <div class="w3-quarter">{ "my job" }</div>
                     <div class="w3-quarter">{ "How it maters" }</div>
                 </div>
-                { for (*criterias_state_5).clone().into_iter().map(|criteria: Criteria| {
-                    let param = (*parameter_state).clone().into_iter().find(|param| param.id == criteria.id).unwrap();
-                    html! {
-                        <div>
-                            <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} salary_param={param} criteria={criteria} />
-                        </div>
+                if (*criterias_state_5).len() == (*parameter_state).len() {
+                    <div>
+                    {
+                        for (*criterias_state_5).clone().into_iter().map(|criteria: Criteria| {
+                            let param = (*parameter_state).clone().into_iter().find(|param| param.id == criteria.id).unwrap();
+                            html! {
+                                <div>
+                                  <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} salary_param={param} criteria={criteria} />
+                                </div>
+                            }
+                        })
                     }
-                })}
+                    </div>
+                } else {
+                    <div>{"loading or data mismatch somewhere..."}</div>
+                }
             </div>
         </div>
     }
