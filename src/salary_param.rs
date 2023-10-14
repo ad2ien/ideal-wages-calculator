@@ -1,8 +1,6 @@
 #[derive(Copy, Clone, Debug)]
 pub struct SalaryParam {
     pub id: &'static str,
-    pub label: &'static str,
-    pub coefficient: f64,
     pub value: i8,
 }
 

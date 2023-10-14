@@ -4,81 +4,85 @@ use wasm_bindgen::JsCast;
 use web_sys::{EventTarget, HtmlInputElement};
 use yew::prelude::*;
 
-use crate::{header::Header, slider::SliderMessage};
+use crate::{
+    criterias::Criteria,
+    data::DATA,
+    header::Header,
+    slider::{SliderCoefMessage, SliderMessage},
+};
 
+mod criterias;
+mod data;
 mod header;
 mod salary_param;
 mod slider;
 
 const PARAMETERS_MEANING: i8 = 10;
 
-const DATA: [SalaryParam; 7] = [
-    SalaryParam {
-        id: "like",
-        label: "How much I hate what I'm doing?",
-        coefficient: 1.0,
-        value: 50,
-    },
-    SalaryParam {
-        id: "body",
-        label: "How much I destroy my body at work?",
-        coefficient: 1.0,
-        value: 50,
-    },
-    SalaryParam {
-        id: "pain",
-        label: "How much pain I get from doing my job?",
-        coefficient: 1.0,
-        value: 50,
-    },
-    SalaryParam {
-        id: "mental",
-        label: "How much I'm emotionally impacted by my work?",
-        coefficient: 1.0,
-        value: 50,
-    },
-    SalaryParam {
-        id: "value",
-        label: "How much value I bring with my work?",
-        coefficient: 1.0,
-        value: 50,
-    },
-    SalaryParam {
-        id: "skills",
-        label: "How rare are my skills?",
-        coefficient: 1.0,
-        value: 50,
-    },
-    SalaryParam {
-        id: "training",
-        label: "How much I sacrifice to train my skills?",
-        coefficient: 1.0,
-        value: 50,
-    },
-];
-
 #[function_component]
 fn App() -> Html {
-    let app_state = use_state(|| DATA.to_vec());
-    let base_salary_handle = use_state(|| 1000);
-    let input_base_salary = (*base_salary_handle).clone();
-    let result = use_state(|| compute_result(DATA.to_vec(), input_base_salary));
+    let parameter_state = use_state(|| DATA.to_vec());
+    let criterias_state = use_state(|| criterias::CRITERIAS.to_vec());
+    let base_salary_state = use_state(|| 1000);
+    let input_base_salary_state = (*base_salary_state).clone();
+    let result_state = use_state(|| {
+        compute_result(
+            (*parameter_state).clone(),
+            (*criterias_state).clone(),
+            input_base_salary_state.clone(),
+        )
+    });
 
-    let result_clone = result.clone();
-    let new_state = app_state.clone();
+    let result_clone_2 = result_state.clone();
+
+    let criterias_state_2 = criterias_state.clone();
+    let criterias_state_3 = criterias_state.clone();
+    let criterias_state_4 = criterias_state.clone();
+    let criterias_state_5 = criterias_state.clone();
+
+    let result_state_2 = result_state.clone();
+    let result_state_3 = result_state.clone();
+
+    let parameter_state_2 = parameter_state.clone();
+    let parameter_state_3 = parameter_state.clone();
+    let parameter_state_4 = parameter_state.clone();
+
     let on_slide: Callback<SliderMessage> = {
         Callback::from(move |msg: SliderMessage| {
-            let new_data = compute_state((*new_state).clone(), msg);
-            new_state.set(new_data);
-            result_clone.set(compute_result((*new_state).clone(), input_base_salary));
+            let mut state = (*parameter_state_2).clone();
+            let param = state
+                .iter_mut()
+                .find(|param| param.id == msg.id)
+                .expect(format!("param not found : {} ", msg.id).as_str());
+            param.value = msg.value;
+            parameter_state_2.set(state.to_vec());
+            result_clone_2.set(compute_result(
+                (*parameter_state_2).clone(),
+                (*criterias_state_2).clone(),
+                input_base_salary_state.clone(),
+            ));
         })
     };
 
-    let result_clone_base = result.clone();
-    let new_state_base = app_state.clone();
-    let on_base_change = {
-        let base_salary_handle = base_salary_handle.clone();
+    let on_coef_slide: Callback<SliderCoefMessage> = {
+        Callback::from(move |msg: SliderCoefMessage| {
+            let mut crit_state = (*criterias_state_3).clone();
+            let criteria = crit_state
+                .iter_mut()
+                .find(|criteria| criteria.id == msg.id)
+                .expect(format!("criteria not found : {} ", msg.id).as_str());
+            criteria.coefficient = msg.coef;
+            criterias_state_3.set(crit_state.to_vec());
+            result_state_2.set(compute_result(
+                (*parameter_state_3).clone(),
+                (*criterias_state_3).clone(),
+                input_base_salary_state.clone(),
+            ));
+        })
+    };
 
+    let on_base_change = {
+        let base_salary_handle = base_salary_state.clone();
         Callback::from(move |e: InputEvent| {
             let target: Option<EventTarget> = e.target();
             let input = target.and_then(|t| t.dyn_into::<HtmlInputElement>().ok());
@@ -86,8 +90,12 @@ fn App() -> Html {
             if let Some(input) = input {
                 let base_salary = input.value().parse::<i32>().expect("expected number");
                 base_salary_handle.set(base_salary);
-                result_clone_base.set(compute_result((*new_state_base).clone(), base_salary));
             }
+            result_state_3.set(compute_result(
+                (*parameter_state_4).clone(),
+                (*criterias_state_4).clone(),
+                input_base_salary_state.clone(),
+            ));
         })
     };
 
@@ -98,12 +106,15 @@ fn App() -> Html {
                 <div class="w3-half contentBlock">
                     <form class="w3-container">
                         <label>{"Base salary : "}</label>
-                        <input class="w3-border w3-round-large parameterTextInput" type="number" value={input_base_salary.to_string()} oninput={on_base_change} />
+                        <input class="w3-border w3-round-large parameterTextInput"
+                          type="number"
+                          value={input_base_salary_state.to_string()}
+                          oninput={on_base_change} />
                         <label>{"€"}</label>
                     </form>
                 </div>
                 <div class="w3-half contentBlock">
-                        <span>{"Result : "}{result.to_string()}{"€"}</span>
+                        <span>{"Result : "}{result_state.to_string()}{"€"}</span>
                 </div>
             </div>
             <div class="contentBlock">
@@ -112,10 +123,11 @@ fn App() -> Html {
                     <div class="w3-quarter">{ "my job" }</div>
                     <div class="w3-quarter">{ "How it maters" }</div>
                 </div>
-                { for (*app_state).clone().into_iter().map(|param: SalaryParam| {
+                { for (*criterias_state_5).clone().into_iter().map(|criteria: Criteria| {
+                    let param = (*parameter_state).clone().into_iter().find(|param| param.id == criteria.id).unwrap();
                     html! {
                         <div>
-                            <Slider on_slide={on_slide.clone()} salary_param={param} />
+                            <Slider on_parameter_slide={on_slide.clone()} on_coef_slide={on_coef_slide.clone()} salary_param={param} criteria={criteria} />
                         </div>
                     }
                 })}
@@ -124,22 +136,16 @@ fn App() -> Html {
     }
 }
 
-fn compute_state(state: Vec<SalaryParam>, slider_message: SliderMessage) -> Vec<SalaryParam> {
-    let mut new_state = state.clone();
-    let param = new_state
-        .iter_mut()
-        .find(|param| param.id == slider_message.id)
-        .unwrap();
-    param.value = slider_message.value;
-    param.coefficient = slider_message.coef;
-    new_state
-}
-
-fn compute_result(state: Vec<SalaryParam>, base: i32) -> f64 {
-    let mut variable_wage_part = 0.0;
-    for param in state {
-        variable_wage_part += param.coefficient * param.value as f64;
-    }
+fn compute_result(state: Vec<SalaryParam>, criterias: Vec<Criteria>, base: i32) -> f64 {
+    let variable_wage_part = state.clone().into_iter().fold(0.0, |acc, param| {
+        acc + (param.value as f64
+            * criterias
+                .clone()
+                .into_iter()
+                .find(|criteria| criteria.id == param.id)
+                .expect(format!("criteria not found : {} ", param.id).as_str())
+                .coefficient)
+    });
     (variable_wage_part as f64 * PARAMETERS_MEANING as f64 + base as f64).round()
 }
 
