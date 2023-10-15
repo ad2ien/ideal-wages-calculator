@@ -1,8 +1,8 @@
 use gloo_net::http::Request;
-use slider::Slider;
+use slider_component::Slider;
 use wages_param::WagesParam;
 use wasm_bindgen::JsCast;
-use web_sys::{EventTarget, HtmlInputElement};
+use web_sys::{EventTarget, HtmlInputElement, HtmlSelectElement};
 use yew::functional::use_effect;
 use yew::prelude::*;
 
@@ -10,13 +10,13 @@ use crate::{
     criterias::Criteria,
     header::Header,
     job::Job,
-    slider::{SliderCoefMessage, SliderMessage},
+    slider_component::{SliderCoefMessage, SliderMessage},
 };
 
 mod criterias;
 mod header;
 mod job;
-mod slider;
+mod slider_component;
 mod wages_param;
 
 const PARAMETERS_MEANING: i8 = 10;
@@ -25,11 +25,15 @@ const DATA_URL: &str = "http://localhost:1984/params";
 
 #[function_component]
 fn App() -> Html {
+    let jobs_state: UseStateHandle<Vec<Job>> = use_state(|| [].to_vec());
+
     let parameter_state = use_state(|| [].to_vec());
     let criterias_state = use_state(|| [].to_vec());
     let base_wages_state = use_state(|| 1000);
     let input_base_wages_state = (*base_wages_state).clone();
     let result_state = use_state(|| 0.0);
+    let jobs_box_state: UseStateHandle<Vec<String>> = use_state(|| [].to_vec());
+    let selected_job_state = use_state(|| "".to_string());
 
     let result_clone_2 = result_state.clone();
     let result_clone_3 = result_state.clone();
@@ -40,6 +44,7 @@ fn App() -> Html {
     let criterias_state_4 = criterias_state.clone();
     let criterias_state_5 = criterias_state.clone();
     let criterias_state_6 = criterias_state.clone();
+    let criterias_state_7 = criterias_state.clone();
 
     let result_state_2 = result_state.clone();
     let result_state_3 = result_state.clone();
@@ -49,6 +54,13 @@ fn App() -> Html {
     let parameter_state_4 = parameter_state.clone();
     let parameter_state_5 = parameter_state.clone();
     let parameter_state_6 = parameter_state.clone();
+    let parameter_state_7 = parameter_state.clone();
+
+    let jobs_box_state_2 = jobs_box_state.clone();
+
+    let selected_job_state_2 = selected_job_state.clone();
+
+    let jobs_state_2 = jobs_state.clone();
 
     use_effect(move || {
         if (*criterias_state).len() == 0 {
@@ -83,16 +95,22 @@ fn App() -> Html {
                     .json()
                     .await
                     .unwrap();
-                parameter_state_6.set(jobs[0].params.clone());
+                if jobs.len() < 1 {
+                    return;
+                }
+                jobs_state.set(jobs.clone());
+                jobs_box_state.set(jobs.clone().into_iter().map(|job| job.job).collect());
+                selected_job_state.set(jobs.first().unwrap().job.clone());
+                parameter_state_6.set(jobs.first().unwrap().params.clone());
                 result_clone_4.set(compute_result(
-                    jobs[0].params.clone(),
+                    jobs.first().unwrap().params.clone(),
                     (*criterias_state_6).clone(),
                     input_base_wages_state.clone(),
                 ));
             });
             || ()
         } else {
-             || ()
+            || ()
         }
     });
 
@@ -148,6 +166,23 @@ fn App() -> Html {
         })
     };
 
+    let on_job_select = {
+        Callback::from(move |e: Event| {
+            let target: Option<EventTarget> = e.target();
+            let input = target.and_then(|t| t.dyn_into::<HtmlSelectElement>().ok());
+            if let Some(input) = input {
+                let new_job: Job = (*jobs_state_2)
+                    .clone()
+                    .into_iter()
+                    .find(|job| job.job == input.value())
+                    .expect(format!("param not found : {} ", input.value()).as_str());
+                log::info!("input {:?}", new_job);
+                parameter_state_7.set(new_job.params.clone());
+                criterias_state_7.set((*criterias_state_7).clone());
+            }
+        })
+    };
+
     html! {
         <div class="container">
             <Header />
@@ -160,6 +195,15 @@ fn App() -> Html {
                           value={input_base_wages_state.to_string()}
                           oninput={on_base_change} />
                         <label>{"€"}</label>
+                        <select name="job" onchange={on_job_select}>
+                            {
+                                for (*jobs_box_state_2).clone().into_iter().map(|job: String| {
+                                    html! {
+                                        <option selected={job.clone() == (*selected_job_state_2)} value={job.clone()}>{ job.clone() }</option>
+                                    }
+                                })
+                            }
+                        </select>
                     </form>
                 </div>
                 <div class="w3-half contentBlock">

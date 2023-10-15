@@ -27,5 +27,6 @@ features = [
     "HtmlElement",
     "DomRect",
     "EventTarget",
-    "HtmlInputElement"
+    "HtmlInputElement",
+    "HtmlSelectElement"
 ]

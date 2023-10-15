@@ -4,19 +4,19 @@
     "params": [
       {
         "id": "hate",
-        "value": 50
+        "value": 10
       },
       {
         "id": "body_destruction",
-        "value": 50
+        "value": 10
       },
       {
         "id": "pain",
-        "value": 50
+        "value": 0
       },
       {
         "id": "mental",
-        "value": 50
+        "value": 35
       },
       {
         "id": "value",
@@ -29,6 +29,39 @@
       {
         "id": "training",
         "value": 50
+      }
+    ]
+  },
+  {
+    "job": "Factory worker",
+    "params": [
+      {
+        "id": "hate",
+        "value": 80
+      },
+      {
+        "id": "body_destruction",
+        "value": 80
+      },
+      {
+        "id": "pain",
+        "value": 80
+      },
+      {
+        "id": "mental",
+        "value": 10
+      },
+      {
+        "id": "value",
+        "value": 40
+      },
+      {
+        "id": "skills",
+        "value": 20
+      },
+      {
+        "id": "training",
+        "value": 10
       }
     ]
   }
