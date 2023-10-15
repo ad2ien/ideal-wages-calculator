@@ -1,13 +1,13 @@
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 
-use crate::{salary_param::SalaryParam, criterias::Criteria};
+use crate::{wages_param::WagesParam, criterias::Criteria};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
     pub on_parameter_slide: Callback<SliderMessage>,
     pub on_coef_slide: Callback<SliderCoefMessage>,
-    pub salary_param: SalaryParam,
+    pub wages_param: WagesParam,
     pub criteria: Criteria,
 }
 
@@ -24,13 +24,13 @@ pub struct SliderCoefMessage {
 
 #[function_component]
 pub fn Slider(props: &Props) -> Html {
-    let input_value_handle = use_state(|| props.salary_param.value.to_string());
+    let input_value_handle = use_state(|| props.wages_param.value.to_string());
     let coef_value_handle = use_state(|| props.criteria.coefficient.to_string());
     let input_value = (*input_value_handle).clone();
     let coef_value = (*coef_value_handle).clone();
 
-    let salary_param = props.salary_param.clone();
-    let salary_param_2 = props.salary_param.clone();
+    let wages_param = props.wages_param.clone();
+    let wages_param_2 = props.wages_param.clone();
     let criteria = props.criteria.clone();
     
     let cb_value_handle = props.on_parameter_slide.clone();
@@ -41,7 +41,7 @@ pub fn Slider(props: &Props) -> Html {
             if let Some(input) = input {
                 input_value_handle.set(input.value());
                 cb_value_handle.emit( SliderMessage { 
-                    id: salary_param.id.to_string(),
+                    id: wages_param.id.to_string(),
                     value: input.value().parse::<i8>().expect("expected number"),
                  });
             }
@@ -56,7 +56,7 @@ pub fn Slider(props: &Props) -> Html {
             if let Some(input) = input {
                 coef_value_handle.set(input.value());
                 cb_coef_handle.emit( SliderCoefMessage { 
-                    id: salary_param_2.id.to_string(),
+                    id: wages_param_2.id.to_string(),
                     coef: input.value().parse::<f64>().expect("expected number")
                  });
             }

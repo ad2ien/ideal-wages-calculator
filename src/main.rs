@@ -1,6 +1,6 @@
 use gloo_net::http::Request;
-use salary_param::SalaryParam;
 use slider::Slider;
+use wages_param::WagesParam;
 use wasm_bindgen::JsCast;
 use web_sys::{EventTarget, HtmlInputElement};
 use yew::functional::use_effect;
@@ -8,35 +8,38 @@ use yew::prelude::*;
 
 use crate::{
     criterias::Criteria,
-    data::DATA,
     header::Header,
+    job::Job,
     slider::{SliderCoefMessage, SliderMessage},
 };
 
 mod criterias;
-mod data;
 mod header;
-mod salary_param;
+mod job;
 mod slider;
+mod wages_param;
 
 const PARAMETERS_MEANING: i8 = 10;
 const CRITERIAS_URL: &str = "http://localhost:1984/criterias";
+const DATA_URL: &str = "http://localhost:1984/params";
 
 #[function_component]
 fn App() -> Html {
-    let parameter_state = use_state(|| DATA.to_vec());
+    let parameter_state = use_state(|| [].to_vec());
     let criterias_state = use_state(|| [].to_vec());
-    let base_salary_state = use_state(|| 1000);
-    let input_base_salary_state = (*base_salary_state).clone();
+    let base_wages_state = use_state(|| 1000);
+    let input_base_wages_state = (*base_wages_state).clone();
     let result_state = use_state(|| 0.0);
 
     let result_clone_2 = result_state.clone();
     let result_clone_3 = result_state.clone();
+    let result_clone_4 = result_state.clone();
 
     let criterias_state_2 = criterias_state.clone();
     let criterias_state_3 = criterias_state.clone();
     let criterias_state_4 = criterias_state.clone();
     let criterias_state_5 = criterias_state.clone();
+    let criterias_state_6 = criterias_state.clone();
 
     let result_state_2 = result_state.clone();
     let result_state_3 = result_state.clone();
@@ -45,6 +48,7 @@ fn App() -> Html {
     let parameter_state_3 = parameter_state.clone();
     let parameter_state_4 = parameter_state.clone();
     let parameter_state_5 = parameter_state.clone();
+    let parameter_state_6 = parameter_state.clone();
 
     use_effect(move || {
         if (*criterias_state).len() == 0 {
@@ -60,12 +64,35 @@ fn App() -> Html {
                 result_clone_3.set(compute_result(
                     (*parameter_state_5).clone(),
                     fetched_criteria.clone(),
-                    input_base_salary_state.clone(),
+                    input_base_wages_state.clone(),
                 ));
             });
             || ()
         } else {
             || ()
+        }
+    });
+
+    use_effect(move || {
+        if (*parameter_state_6).len() == 0 {
+            wasm_bindgen_futures::spawn_local(async move {
+                let jobs: Vec<Job> = Request::get(DATA_URL)
+                    .send()
+                    .await
+                    .unwrap()
+                    .json()
+                    .await
+                    .unwrap();
+                parameter_state_6.set(jobs[0].params.clone());
+                result_clone_4.set(compute_result(
+                    jobs[0].params.clone(),
+                    (*criterias_state_6).clone(),
+                    input_base_wages_state.clone(),
+                ));
+            });
+            || ()
+        } else {
+             || ()
         }
     });
 
@@ -81,7 +108,7 @@ fn App() -> Html {
             result_clone_2.set(compute_result(
                 state.clone(),
                 (*criterias_state_2).clone(),
-                input_base_salary_state.clone(),
+                input_base_wages_state.clone(),
             ));
         })
     };
@@ -98,25 +125,25 @@ fn App() -> Html {
             result_state_2.set(compute_result(
                 (*parameter_state_3).clone(),
                 crit_state.clone(),
-                input_base_salary_state.clone(),
+                input_base_wages_state.clone(),
             ));
         })
     };
 
     let on_base_change = {
-        let base_salary_handle = base_salary_state.clone();
+        let base_wages_handle = base_wages_state.clone();
         Callback::from(move |e: InputEvent| {
             let target: Option<EventTarget> = e.target();
             let input = target.and_then(|t| t.dyn_into::<HtmlInputElement>().ok());
 
             if let Some(input) = input {
-                let base_salary = input.value().parse::<i32>().expect("expected number");
-                base_salary_handle.set(base_salary);
+                let base_wages = input.value().parse::<i32>().expect("expected number");
+                base_wages_handle.set(base_wages);
             }
             result_state_3.set(compute_result(
                 (*parameter_state_4).clone(),
                 (*criterias_state_4).clone(),
-                input_base_salary_state.clone(),
+                input_base_wages_state.clone(),
             ));
         })
     };
@@ -127,10 +154,10 @@ fn App() -> Html {
             <div class="w3-row firstRow">
                 <div class="w3-half contentBlock">
                     <form class="w3-container">
-                        <label>{"Base salary : "}</label>
+                        <label>{"Base wages : "}</label>
                         <input class="w3-border w3-round-large parameterTextInput"
                           type="number"
-                          value={input_base_salary_state.to_string()}
+                          value={input_base_wages_state.to_string()}
                           oninput={on_base_change} />
                         <label>{"€"}</label>
                     </form>
@@ -152,7 +179,7 @@ fn App() -> Html {
                             let param = (*parameter_state).clone().into_iter().find(|param| param.id == criteria.id).unwrap();
                             html! {
                                 <div>
-                                  <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} salary_param={param} criteria={criteria} />
+                                  <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} wages_param={param} criteria={criteria} />
                                 </div>
                             }
                         })
@@ -166,7 +193,7 @@ fn App() -> Html {
     }
 }
 
-fn compute_result(state: Vec<SalaryParam>, criterias: Vec<Criteria>, base: i32) -> f64 {
+fn compute_result(state: Vec<WagesParam>, criterias: Vec<Criteria>, base: i32) -> f64 {
     if criterias.len() == 0 {
         return 0.0;
     }

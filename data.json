@@ -1,0 +1,35 @@
+[
+  {
+    "job": "IT developer like",
+    "params": [
+      {
+        "id": "hate",
+        "value": 50
+      },
+      {
+        "id": "body_destruction",
+        "value": 50
+      },
+      {
+        "id": "pain",
+        "value": 50
+      },
+      {
+        "id": "mental",
+        "value": 50
+      },
+      {
+        "id": "value",
+        "value": 50
+      },
+      {
+        "id": "skills",
+        "value": 50
+      },
+      {
+        "id": "training",
+        "value": 50
+      }
+    ]
+  }
+]

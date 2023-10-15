@@ -23,7 +23,7 @@ def criterias():
 def params():
     print("get params")
 
-    with open('data.csv', 'r') as file:
+    with open('data.json', 'r') as file:
         content = file.read()
         return content
 
