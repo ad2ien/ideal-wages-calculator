@@ -157,12 +157,12 @@ fn App() -> Html {
             if let Some(input) = input {
                 let base_wages = input.value().parse::<i32>().expect("expected number");
                 base_wages_handle.set(base_wages);
+                result_state_3.set(compute_result(
+                    (*parameter_state_4).clone(),
+                    (*criterias_state_4).clone(),
+                    base_wages.clone(),
+                ));
             }
-            result_state_3.set(compute_result(
-                (*parameter_state_4).clone(),
-                (*criterias_state_4).clone(),
-                input_base_wages_state.clone(),
-            ));
         })
     };
 
