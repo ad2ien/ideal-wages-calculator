@@ -5,9 +5,13 @@ use web_sys::{EventTarget, HtmlInputElement, HtmlSelectElement};
 use yew::functional::use_effect;
 use yew::prelude::*;
 
-use crate::{criterias::Criteria, header::Header, job::Job, job_sliders_component::JobSliders};
+use crate::{
+    criterias::Criteria, footer::Footer, header::Header, job::Job,
+    job_sliders_component::JobSliders,
+};
 
 mod criterias;
+mod footer;
 mod header;
 mod job;
 mod job_sliders_component;
@@ -213,6 +217,7 @@ fn App() -> Html {
                 criterias={(*criterias_state_2).clone()}
                 on_parameter_slide={on_param_value_slide.clone()}
                 on_coef_slide={on_coef_slide.clone()} />
+            <Footer />
         </div>
     }
 }
