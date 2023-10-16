@@ -1,5 +1,4 @@
 use gloo_net::http::Request;
-use slider_component::Slider;
 use wages_param::WagesParam;
 use wasm_bindgen::JsCast;
 use web_sys::{EventTarget, HtmlInputElement, HtmlSelectElement};
@@ -10,12 +9,13 @@ use crate::{
     criterias::Criteria,
     header::Header,
     job::Job,
-    slider_component::{SliderCoefMessage, SliderMessage},
+    job_sliders_component::JobSliders,
 };
 
 mod criterias;
 mod header;
 mod job;
+mod job_sliders_component;
 mod slider_component;
 mod wages_param;
 
@@ -35,19 +35,19 @@ fn App() -> Html {
     let jobs_box_state: UseStateHandle<Vec<String>> = use_state(|| [].to_vec());
     let selected_job_state = use_state(|| "".to_string());
 
-    let result_clone_2 = result_state.clone();
-    let result_clone_3 = result_state.clone();
-    let result_clone_4 = result_state.clone();
+    let result_state_2 = result_state.clone();
+    let result_state_3 = result_state.clone();
+    let result_state_4 = result_state.clone();
+    let result_state_5 = result_state.clone();
+    let result_state_6 = result_state.clone();
+    let result_state_7 = result_state.clone();
 
     let criterias_state_2 = criterias_state.clone();
     let criterias_state_3 = criterias_state.clone();
     let criterias_state_4 = criterias_state.clone();
-    let criterias_state_5 = criterias_state.clone();
     let criterias_state_6 = criterias_state.clone();
     let criterias_state_7 = criterias_state.clone();
-
-    let result_state_2 = result_state.clone();
-    let result_state_3 = result_state.clone();
+    let criterias_state_8 = criterias_state.clone();
 
     let parameter_state_2 = parameter_state.clone();
     let parameter_state_3 = parameter_state.clone();
@@ -55,10 +55,12 @@ fn App() -> Html {
     let parameter_state_5 = parameter_state.clone();
     let parameter_state_6 = parameter_state.clone();
     let parameter_state_7 = parameter_state.clone();
+    let parameter_state_8 = parameter_state.clone();
 
     let jobs_box_state_2 = jobs_box_state.clone();
 
     let selected_job_state_2 = selected_job_state.clone();
+    let selected_job_state_3 = selected_job_state.clone();
 
     let jobs_state_2 = jobs_state.clone();
 
@@ -73,7 +75,7 @@ fn App() -> Html {
                     .await
                     .unwrap();
                 criterias_state.set(fetched_criteria.clone());
-                result_clone_3.set(compute_result(
+                result_state_3.set(compute_result(
                     (*parameter_state_5).clone(),
                     fetched_criteria.clone(),
                     input_base_wages_state.clone(),
@@ -102,7 +104,7 @@ fn App() -> Html {
                 jobs_box_state.set(jobs.clone().into_iter().map(|job| job.job).collect());
                 selected_job_state.set(jobs.first().unwrap().job.clone());
                 parameter_state_6.set(jobs.first().unwrap().params.clone());
-                result_clone_4.set(compute_result(
+                result_state_4.set(compute_result(
                     jobs.first().unwrap().params.clone(),
                     (*criterias_state_6).clone(),
                     input_base_wages_state.clone(),
@@ -113,36 +115,23 @@ fn App() -> Html {
             || ()
         }
     });
-
-    let on_param_value_slide: Callback<SliderMessage> = {
-        Callback::from(move |msg: SliderMessage| {
-            let mut state = (*parameter_state_2).clone();
-            let param = state
-                .iter_mut()
-                .find(|param| param.id == msg.id)
-                .expect(format!("param not found : {} ", msg.id).as_str());
-            param.value = msg.value;
-            parameter_state_2.set(state.to_vec());
-            result_clone_2.set(compute_result(
-                state.clone(),
-                (*criterias_state_2).clone(),
+    let on_param_value_slide: Callback<Vec<WagesParam>> = {
+        Callback::from(move |new_params: Vec<WagesParam>| {
+            parameter_state_2.set(new_params.clone());
+            result_state_2.set(compute_result(
+                new_params.clone(),
+                (*criterias_state_8).clone(),
                 input_base_wages_state.clone(),
             ));
         })
     };
 
-    let on_coef_slide: Callback<SliderCoefMessage> = {
-        Callback::from(move |msg: SliderCoefMessage| {
-            let mut crit_state = (*criterias_state_3).clone();
-            let criteria = crit_state
-                .iter_mut()
-                .find(|criteria| criteria.id == msg.id)
-                .expect(format!("criteria not found : {} ", msg.id).as_str());
-            criteria.coefficient = msg.coef;
-            criterias_state_3.set(crit_state.to_vec());
-            result_state_2.set(compute_result(
-                (*parameter_state_3).clone(),
-                crit_state.clone(),
+    let on_coef_slide: Callback<Vec<Criteria>> = {
+        Callback::from(move |new_coef: Vec<Criteria>| {
+            criterias_state_3.set(new_coef.clone());
+            result_state_5.set(compute_result(
+                (*parameter_state_8).clone(),
+                new_coef.clone(),
                 input_base_wages_state.clone(),
             ));
         })
@@ -157,7 +146,7 @@ fn App() -> Html {
             if let Some(input) = input {
                 let base_wages = input.value().parse::<i32>().expect("expected number");
                 base_wages_handle.set(base_wages);
-                result_state_3.set(compute_result(
+                result_state_7.set(compute_result(
                     (*parameter_state_4).clone(),
                     (*criterias_state_4).clone(),
                     base_wages.clone(),
@@ -176,9 +165,13 @@ fn App() -> Html {
                     .into_iter()
                     .find(|job| job.job == input.value())
                     .expect(format!("param not found : {} ", input.value()).as_str());
-                log::info!("input {:?}", new_job);
+                selected_job_state_2.set(new_job.job.clone());
                 parameter_state_7.set(new_job.params.clone());
-                criterias_state_7.set((*criterias_state_7).clone());
+                result_state_6.set(compute_result(
+                    new_job.params.clone(),
+                    (*criterias_state_7).clone(),
+                    input_base_wages_state.clone(),
+                ));
             }
         })
     };
@@ -199,7 +192,7 @@ fn App() -> Html {
                             {
                                 for (*jobs_box_state_2).clone().into_iter().map(|job: String| {
                                     html! {
-                                        <option selected={job.clone() == (*selected_job_state_2)} value={job.clone()}>{ job.clone() }</option>
+                                        <option selected={job.clone() == (*selected_job_state_3)} value={job.clone()}>{ job.clone() }</option>
                                     }
                                 })
                             }
@@ -210,29 +203,11 @@ fn App() -> Html {
                         <span>{"Result : "}{result_state.to_string()}{"€"}</span>
                 </div>
             </div>
-            <div class="contentBlock">
-                <div class="w3-row parameterHeader">
-                    <div class="w3-half">{ "Criteria" }</div>
-                    <div class="w3-quarter">{ "my job" }</div>
-                    <div class="w3-quarter">{ "How it maters" }</div>
-                </div>
-                if (*criterias_state_5).len() == (*parameter_state).len() {
-                    <div>
-                    {
-                        for (*criterias_state_5).clone().into_iter().map(|criteria: Criteria| {
-                            let param = (*parameter_state).clone().into_iter().find(|param| param.id == criteria.id).unwrap();
-                            html! {
-                                <div>
-                                  <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} wages_param={param} criteria={criteria} />
-                                </div>
-                            }
-                        })
-                    }
-                    </div>
-                } else {
-                    <div>{"loading or data mismatch somewhere..."}</div>
-                }
-            </div>
+            <JobSliders
+                wages_param={(*parameter_state_3).clone()}
+                criterias={(*criterias_state_2).clone()}
+                on_parameter_slide={on_param_value_slide.clone()}
+                on_coef_slide={on_coef_slide.clone()} />
         </div>
     }
 }

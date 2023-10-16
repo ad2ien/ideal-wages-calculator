@@ -1,7 +1,7 @@
 use web_sys::HtmlInputElement;
 use yew::prelude::*;
 
-use crate::{wages_param::WagesParam, criterias::Criteria};
+use crate::{criterias::Criteria, wages_param::WagesParam};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -26,24 +26,24 @@ pub struct SliderCoefMessage {
 pub fn Slider(props: &Props) -> Html {
     let input_value_handle = use_state(|| props.wages_param.value.to_string());
     let coef_value_handle = use_state(|| props.criteria.coefficient.to_string());
-    let input_value = (*input_value_handle).clone();
+    let prop_val = props.wages_param.value.to_string();
     let coef_value = (*coef_value_handle).clone();
 
     let wages_param = props.wages_param.clone();
     let wages_param_2 = props.wages_param.clone();
     let criteria = props.criteria.clone();
-    
+
     let cb_value_handle = props.on_parameter_slide.clone();
     let on_value_change = {
         Callback::from(move |e: InputEvent| {
             let input = e.target_dyn_into::<HtmlInputElement>();
-            
+
             if let Some(input) = input {
                 input_value_handle.set(input.value());
-                cb_value_handle.emit( SliderMessage { 
+                cb_value_handle.emit(SliderMessage {
                     id: wages_param.id.to_string(),
                     value: input.value().parse::<i8>().expect("expected number"),
-                 });
+                });
             }
         })
     };
@@ -55,10 +55,10 @@ pub fn Slider(props: &Props) -> Html {
 
             if let Some(input) = input {
                 coef_value_handle.set(input.value());
-                cb_coef_handle.emit( SliderCoefMessage { 
+                cb_coef_handle.emit(SliderCoefMessage {
                     id: wages_param_2.id.to_string(),
-                    coef: input.value().parse::<f64>().expect("expected number")
-                 });
+                    coef: input.value().parse::<f64>().expect("expected number"),
+                });
             }
         })
     };
@@ -67,8 +67,8 @@ pub fn Slider(props: &Props) -> Html {
         <div class="w3-row">
             <div class="w3-half w3-container">{  criteria.label }</div>
             <div class="sliderDiv w3-quarter">
-                <input type="range" min="0" max="100" value={input_value.clone()} oninput={on_value_change} />
-                <div class="sliderValue">{ input_value }</div>
+                <input type="range" min="0" max="100" value={prop_val.clone()} oninput={on_value_change} />
+                <div class="sliderValue">{ prop_val.clone() }</div>
             </div>
             <div class="sliderDiv w3-quarter">
                 <input class="coefSlider" type="range" min="-2" max="2" step="0.1" value={coef_value.clone()} oninput={on_coef_change} />
