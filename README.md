@@ -1,18 +1,25 @@
 # Ideal Wages Calculator
 
+[![Rust](https://img.shields.io/badge/Rust-1.26.0-black.svg?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.dev)
-[![Rust](https://img.shields.io/badge/Rust-000000?logo=rust&logoColor=white)](https://www.rust-lang.org/)
-[![Yew](https://img.shields.io/badge/Yew-000000.svg)](https://yew.rs/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
-Some striking injustice...
+Is there not some injustices in spreading labour incomes? I wanted to how (too) much I was paid for my services.
 
-This and I wanted to learn some webassembly stuff 🤓...
+This, and also, I wanted to learn some web assembly stuff 🤓...
 
 ## Website
 
 There will a github page there... somewhere
+
+## Dependencies
+
+- [Rust](https://www.rust-lang.org/)
+- [Cargo](https://github.com/rust-lang/cargo)
+- [Trunk](https://trunkrs.dev/)
+- [Yew](https://yew.rs/)
 
 ## Run
 
@@ -22,9 +29,9 @@ trunk serve
 
 ## Contribute
 
-I reckon I'm not good with shapes and colors, any help welcome. If you want to get in touch : here's a contact :
+I'm not the one to complain to if you know people who should be paid more. But any suggestion or contribution is welcome.
 
-## todo list
+## Todo list
 
 - [x] data from file
 - [x] bug a step behind
@@ -35,4 +42,4 @@ I reckon I'm not good with shapes and colors, any help welcome. If you want to g
 - [ ] keyworks in cargo.toml
 - [ ] open repo
 - [ ] github page
-- [ ] footer : trunk yew
+- [x] footer : trunk yew
