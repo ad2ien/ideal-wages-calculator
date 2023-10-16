@@ -5,12 +5,7 @@ use web_sys::{EventTarget, HtmlInputElement, HtmlSelectElement};
 use yew::functional::use_effect;
 use yew::prelude::*;
 
-use crate::{
-    criterias::Criteria,
-    header::Header,
-    job::Job,
-    job_sliders_component::JobSliders,
-};
+use crate::{criterias::Criteria, header::Header, job::Job, job_sliders_component::JobSliders};
 
 mod criterias;
 mod header;
@@ -180,27 +175,37 @@ fn App() -> Html {
         <div class="container">
             <Header />
             <div class="w3-row firstRow">
-                <div class="w3-half contentBlock">
+                <div class="w3-third contentBlock">
                     <form class="w3-container">
-                        <label>{"Base wages : "}</label>
+                        <label class="w3-tooltip">
+                            <span class="w3-text w3-tag w3-round-xlarge tooltip ">
+                                { "Maybe as human we should be able to survive whatever you do in life" }
+                            </span>
+                            {"Base wages : "}
+                        </label>
                         <input class="w3-border w3-round-large parameterTextInput"
                           type="number"
                           value={input_base_wages_state.to_string()}
                           oninput={on_base_change} />
                         <label>{"€"}</label>
-                        <select name="job" onchange={on_job_select}>
-                            {
-                                for (*jobs_box_state_2).clone().into_iter().map(|job: String| {
-                                    html! {
-                                        <option selected={job.clone() == (*selected_job_state_3)} value={job.clone()}>{ job.clone() }</option>
-                                    }
-                                })
-                            }
-                        </select>
                     </form>
                 </div>
+                <div class="w3-third contentBlock">
+                    <label>{ "Profile : "}</label>
+                    <select class="w3-select" name="job" onchange={on_job_select}>
+                        {
+                            for (*jobs_box_state_2).clone().into_iter().map(|job: String| {
+                                html! {
+                                    <option selected={job.clone() == (*selected_job_state_3)} value={job.clone()}>{ job.clone() }</option>
+                                }
+                            })
+                        }
+                    </select>
+                </div>
                 <div class="w3-half contentBlock">
-                        <span>{"Result : "}{result_state.to_string()}{"€"}</span>
+                        <span>{"You should get : "}</span>
+                        <br/>
+                        <span class="result"> {result_state.to_string()}{"€"}</span>
                 </div>
             </div>
             <JobSliders
