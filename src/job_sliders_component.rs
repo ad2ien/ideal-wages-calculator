@@ -47,8 +47,8 @@ pub fn JobSliders(props: &Props) -> Html {
     html! {
         <div class="contentBlock">
             <div class="w3-row parameterHeader">
-                <div class="w3-half">{ "Criteria for " }</div>
-                <div class="w3-quarter">{ "my job" }</div>
+                <div class="w3-half">{ "Criteria" }</div>
+                <div class="w3-quarter">{ "Mark" }</div>
                 <div class="w3-quarter">{ "How it maters" }</div>
             </div>
             if props.criterias.len() == props.wages_param.len() {

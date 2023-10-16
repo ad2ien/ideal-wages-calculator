@@ -5,7 +5,7 @@ pub fn Header() -> Html {
     html! {
         <div class="title">
             <h1>{"Ideal Wages Calculator"}</h1>
-            <h2>{"How much should you earn?"}</h2>
+            <h2>{"How much should I earn?"}</h2>
         </div>
     }
 }

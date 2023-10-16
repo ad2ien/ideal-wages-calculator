@@ -37,7 +37,7 @@
   },
   {
     "id": "training",
-    "label": "How much I sacrifice to train my skills?",
+    "label": "How much I sacrificed to train my skills?",
     "description": "100: you had to give up your life and the one of your kids to eat only noodles and mustard for 3 years?",
     "coefficient": 1.0
   }
