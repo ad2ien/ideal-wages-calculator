@@ -1,6 +1,6 @@
 [
   {
-    "job": "IT developer like",
+    "job": "IT developer",
     "params": [
       {
         "id": "hate",
@@ -62,6 +62,39 @@
       {
         "id": "training",
         "value": 10
+      }
+    ]
+  },
+  {
+    "job": "Farmer",
+    "params": [
+      {
+        "id": "hate",
+        "value": 15
+      },
+      {
+        "id": "body_destruction",
+        "value": 80
+      },
+      {
+        "id": "pain",
+        "value": 80
+      },
+      {
+        "id": "mental",
+        "value": 80
+      },
+      {
+        "id": "value",
+        "value": 60
+      },
+      {
+        "id": "skills",
+        "value": 70
+      },
+      {
+        "id": "training",
+        "value": 65
       }
     ]
   }
