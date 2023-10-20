@@ -2,43 +2,71 @@
   {
     "id": "hate",
     "label": "How much I hate what I'm doing?",
-    "description": "0: you hate everything you're doing, 10: you save the world... and you think the world is worth saving",
+    "description": {
+      "general": "",
+      "min": "you hate every single thing you're doing",
+      "max": "you save the world, while doing something satisfying... and you think the world is worth saving"
+    },
     "coefficient": 1.0
   },
   {
     "id": "body_destruction",
     "label": "How much I destroy my body at work?",
-    "description": "Even if it should be taken care of at a society level",
+    "description": {
+      "general": "Even if it should be taken care of at a society level",
+      "min": "You fight bears bear hands for a living",
+      "max": "All your wall office are made of fluffy duvet, there's no angles anywhere and you exercices from times to times"
+    },
     "coefficient": 1.5
   },
   {
     "id": "pain",
     "label": "How much pain I get from doing my job?",
-    "description": "Pain could be effort, sweating, waiting in the cold or anything non pleasant and not damageable",
+    "description": {
+      "general": "Pain could be effort, sweating, waiting in the cold or anything non pleasant and not damageable",
+      "min": "Slowly cooking while shoveling coal and being slapped in the face every 30 minutes",
+      "max": "You're in an quiet, air conditioned office"
+    }, 
     "coefficient": 1.2
   },
   {
     "id": "mental",
     "label": "How much I'm emotionally impacted by my work?",
-    "description": "How much of your mental workload you bring home",
+    "description": {
+      "general": "How much of your mental workload you bring home",
+      "min": "You're paid by the hour and don't care and nobody does either",
+      "max": "President of a country at war, who cares about people"
+    },
     "coefficient": 1.0
   },
   {
     "id": "value",
     "label": "How much value I bring with my work?",
-    "description": "The value created by your work : how many and how much people take advantage of your work",
-    "coefficient": 1.0
+    "description": {
+      "general": "The value created by your work : how many and how much people take advantage of your work",
+      "min": "Somehow your job is to destroy usefull stuff",
+      "max": "You're single handedly inventing clean, unlimited free energy"
+      },
+      "coefficient": 1.0
   },
   {
     "id": "skills",
     "label": "How rare are my skills?",
-    "description": "How easily you can be replaced by someone else",
+    "description": {
+      "general": "How easily you can be replaced by someone else",
+      "min": "You're at primary school student : can walk and speak",
+      "max": "There's 3 people in the world who can do what you do"
+    },
     "coefficient": 1.0
   },
   {
     "id": "training",
     "label": "How much I sacrificed to train my skills?",
-    "description": "100: you had to give up your life and the one of your kids to eat only noodles and mustard for 3 years?",
-    "coefficient": 1.0
+    "description": {
+      "min": "You unconditionally paid to train",
+      "max": "you had to give up your life and the one of your kids to eat only noodles and mustard for 3 years",
+      "general": "You don't get points if your scholarship was paid for and you enjoyed your studies"
+    },
+     "coefficient": 1.0
   }
 ]

@@ -5,7 +5,14 @@ pub struct Criteria {
     pub id: String,
     pub label: String,
     pub coefficient: f64,
-    pub description: String,
+    pub description: CriteriaDescription,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct CriteriaDescription {
+    pub general: String,
+    pub min: String,
+    pub max: String,
 }
 
 impl PartialEq for Criteria {

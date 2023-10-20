@@ -65,11 +65,19 @@ pub fn Slider(props: &Props) -> Html {
 
     html! {
         <div class="w3-row">
-            <div class="w3-half w3-container w3-tooltip">
+            <div class="w3-half w3-container criteriaText w3-tooltip">
                 <span class="w3-text w3-tag  w3-round-xlarge tooltip">
-                    { criteria.description }
+                    { criteria.description.general }
                 </span>
-                {  criteria.label }
+                <div>
+                    { criteria.label }
+                </div>
+                <div class="criteriaDescription">
+                    { format!("min: {}", criteria.description.min) }
+                </div>
+                <div class="criteriaDescription">
+                    { format!("max: {}", criteria.description.max) }
+                </div>
             </div>
             <div class="sliderDiv w3-quarter">
                 <input type="range" min="0" max="100" value={prop_val.clone()} oninput={on_value_change} />
