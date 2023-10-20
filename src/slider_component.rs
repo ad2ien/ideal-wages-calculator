@@ -70,7 +70,7 @@ pub fn Slider(props: &Props) -> Html {
                     { criteria.description.general }
                 </span>
                 <div>
-                    { criteria.label }
+                    { format!("{} {}", criteria.id , criteria.label) }
                 </div>
                 <div class="criteriaDescription">
                     { format!("min: {}", criteria.description.min) }

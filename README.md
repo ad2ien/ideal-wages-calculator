@@ -1,4 +1,4 @@
-# Ideal Wages Calculator
+# Ideal Wages Calculator 💸
 
 [![Rust](https://img.shields.io/badge/Rust-1.26.0-black.svg?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.dev)
@@ -35,11 +35,12 @@ I'm not the one to complain to if you know people who should be paid more. But a
 
 - [x] data from file
 - [x] bug a step behind
-- [ ] add tooltips
+- [x] add tooltips
 - [ ] check json and readme
 - [x] being able to select a profile
-- [ ] improve rendering colors
-- [ ] keyworks in cargo.toml
+- [x] improve rendering colors
+- [x] keyworks in cargo.toml
+- [x] add emojis
 - [ ] open repo
 - [ ] github page
 - [x] footer : trunk yew

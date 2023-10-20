@@ -183,7 +183,7 @@ fn App() -> Html {
                 <div class="w3-third contentBlock">
                     <form class="w3-container">
                         <label class="w3-tooltip">
-                            <span class="w3-text w3-tag w3-round-xlarge tooltip ">
+                            <span class="w3-text w3-tag w3-round-xlarge tooltip">
                                 { "Maybe as human we should be able to survive whatever you do in life" }
                             </span>
                             {"Base wages : "}

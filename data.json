@@ -3,31 +3,31 @@
     "job": "IT developer",
     "params": [
       {
-        "id": "hate",
+        "id": "🤮",
         "value": 10
       },
       {
-        "id": "body_destruction",
+        "id": "🤕",
         "value": 10
       },
       {
-        "id": "pain",
+        "id": "🥵",
         "value": 0
       },
       {
-        "id": "mental",
+        "id": "❤‍🩹",
         "value": 35
       },
       {
-        "id": "value",
+        "id": "💰",
         "value": 50
       },
       {
-        "id": "skills",
+        "id": "🤹",
         "value": 50
       },
       {
-        "id": "training",
+        "id": "🏋",
         "value": 50
       }
     ]
@@ -36,31 +36,31 @@
     "job": "Factory worker",
     "params": [
       {
-        "id": "hate",
+        "id": "🤮",
         "value": 80
       },
       {
-        "id": "body_destruction",
+        "id": "🤕",
         "value": 80
       },
       {
-        "id": "pain",
+        "id": "🥵",
         "value": 80
       },
       {
-        "id": "mental",
+        "id": "❤‍🩹",
         "value": 10
       },
       {
-        "id": "value",
+        "id": "💰",
         "value": 40
       },
       {
-        "id": "skills",
+        "id": "🤹",
         "value": 20
       },
       {
-        "id": "training",
+        "id": "🏋",
         "value": 10
       }
     ]
@@ -69,32 +69,65 @@
     "job": "Farmer",
     "params": [
       {
-        "id": "hate",
+        "id": "🤮",
         "value": 15
       },
       {
-        "id": "body_destruction",
+        "id": "🤕",
         "value": 80
       },
       {
-        "id": "pain",
+        "id": "🥵",
         "value": 80
       },
       {
-        "id": "mental",
+        "id": "❤‍🩹",
         "value": 80
       },
       {
-        "id": "value",
+        "id": "💰",
         "value": 60
       },
       {
-        "id": "skills",
+        "id": "🤹",
         "value": 70
       },
       {
-        "id": "training",
+        "id": "🏋",
         "value": 65
+      }
+    ]
+  },
+  {
+    "job": "Doctor",
+    "params": [
+      {
+        "id": "🤮",
+        "value": 15
+      },
+      {
+        "id": "🤕",
+        "value": 20
+      },
+      {
+        "id": "🥵",
+        "value": 15
+      },
+      {
+        "id": "❤‍🩹",
+        "value": 80
+      },
+      {
+        "id": "💰",
+        "value": 60
+      },
+      {
+        "id": "🤹",
+        "value": 81
+      },
+      {
+        "id": "🏋",
+        "value": 75
       }
     ]
   }

@@ -1,6 +1,6 @@
 [
   {
-    "id": "hate",
+    "id": "🤮",
     "label": "How much I hate what I'm doing?",
     "description": {
       "general": "",
@@ -10,7 +10,7 @@
     "coefficient": 1.0
   },
   {
-    "id": "body_destruction",
+    "id": "🤕",
     "label": "How much I destroy my body at work?",
     "description": {
       "general": "Even if it should be taken care of at a society level",
@@ -20,7 +20,7 @@
     "coefficient": 1.5
   },
   {
-    "id": "pain",
+    "id": "🥵",
     "label": "How much pain I get from doing my job?",
     "description": {
       "general": "Pain could be effort, sweating, waiting in the cold or anything non pleasant and not damageable",
@@ -30,7 +30,7 @@
     "coefficient": 1.2
   },
   {
-    "id": "mental",
+    "id": "❤‍🩹",
     "label": "How much I'm emotionally impacted by my work?",
     "description": {
       "general": "How much of your mental workload you bring home",
@@ -40,7 +40,7 @@
     "coefficient": 1.0
   },
   {
-    "id": "value",
+    "id": "💰",
     "label": "How much value I bring with my work?",
     "description": {
       "general": "The value created by your work : how many and how much people take advantage of your work",
@@ -50,7 +50,7 @@
       "coefficient": 1.0
   },
   {
-    "id": "skills",
+    "id": "🤹",
     "label": "How rare are my skills?",
     "description": {
       "general": "How easily you can be replaced by someone else",
@@ -60,7 +60,7 @@
     "coefficient": 1.0
   },
   {
-    "id": "training",
+    "id": "🏋",
     "label": "How much I sacrificed to train my skills?",
     "description": {
       "min": "You unconditionally paid to train",
