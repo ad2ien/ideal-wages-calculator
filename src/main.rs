@@ -19,6 +19,7 @@ mod slider_component;
 mod wages_param;
 
 const PARAMETERS_MEANING: i8 = 10;
+const DEFAULT_BASE_WAGES: i32 = 700;
 const CRITERIAS_URL: &str = "http://localhost:1984/criterias";
 const DATA_URL: &str = "http://localhost:1984/params";
 
@@ -28,7 +29,7 @@ fn App() -> Html {
 
     let parameter_state = use_state(|| [].to_vec());
     let criterias_state = use_state(|| [].to_vec());
-    let base_wages_state = use_state(|| 1000);
+    let base_wages_state = use_state(|| DEFAULT_BASE_WAGES);
     let input_base_wages_state = (*base_wages_state).clone();
     let result_state = use_state(|| 0.0);
     let jobs_box_state: UseStateHandle<Vec<String>> = use_state(|| [].to_vec());
