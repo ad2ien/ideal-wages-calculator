@@ -31,16 +31,8 @@ trunk serve
 
 I'm not the one to complain to if you know people who should be paid more. But any suggestion or contribution is welcome.
 
-## Todo list
+## TODO
 
-- [x] data from file
-- [x] bug a step behind
-- [x] add tooltips
-- [ ] check json and readme
-- [x] being able to select a profile
-- [x] improve rendering colors
-- [x] keyworks in cargo.toml
-- [x] add emojis
-- [ ] open repo
-- [ ] github page
-- [x] footer : trunk yew
+- [ ] gh page
+- [ ] change data url
+- [ ] release
