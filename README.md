@@ -33,7 +33,7 @@ I'm not the one to complain to if you know people who should be paid more. But a
 
 ## TODO
 
-- [ ] gh page workflow
 - [ ] change data url
 - [ ] release
 - [ ] configure gh page
+- [ ] github page badge and link
