@@ -1,23 +1,15 @@
-name: pr_check
+name: deploy-gh-page
 
 on:
-  workflow_dispatch:
   push:
-  pull_request:
     branches: [main]
 
-env:
-  CARGO_TERM_COLOR: always
-
 jobs:
-  check:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: json-yaml-validate
-        uses: GrantBirki/json-yaml-validate@v2.3.1
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: install toolchain
         uses: actions-rs/toolchain@v1
@@ -33,7 +25,10 @@ jobs:
           version: "v0.17.5"
 
       - name: Build
-        run: trunk build
+        run: trunk build --release
 
-      - name: Run tests
-        run: cargo test --verbose
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
