@@ -34,6 +34,7 @@ fn App() -> Html {
     let result_state = use_state(|| 0.0);
     let jobs_box_state: UseStateHandle<Vec<String>> = use_state(|| [].to_vec());
     let selected_job_state = use_state(|| "".to_string());
+    let error_msg_state = use_state(|| "".to_string());
 
     let result_state_2 = result_state.clone();
     let result_state_3 = result_state.clone();
@@ -64,16 +65,25 @@ fn App() -> Html {
 
     let jobs_state_2 = jobs_state.clone();
 
+    let error_msg_state_2 = error_msg_state.clone();
+    let error_msg_state_3: UseStateHandle<String> = error_msg_state.clone();
+
     use_effect(move || {
-        if (*criterias_state).len() == 0 {
+        if (*criterias_state).len() == 0 && (*error_msg_state).is_empty() {
             wasm_bindgen_futures::spawn_local(async move {
-                let fetched_criteria: Vec<Criteria> = Request::get(CRITERIAS_URL)
-                    .send()
-                    .await
-                    .unwrap()
-                    .json()
-                    .await
-                    .unwrap();
+                let fetched_criteria: Vec<Criteria> = match Request::get(CRITERIAS_URL).send().await {
+                    Ok(response) => match response.json().await {
+                        Ok(jobs) => jobs,
+                        Err(_e) => {
+                            error_msg_state.set(format!("Error fetching criterias"));
+                            return;
+                        }
+                    },
+                    Err(_e) => {
+                        error_msg_state.set(format!("Error reading criterias"));
+                        return;
+                    }
+                };
                 criterias_state.set(fetched_criteria.clone());
                 result_state_3.set(compute_result(
                     (*parameter_state_5).clone(),
@@ -88,16 +98,24 @@ fn App() -> Html {
     });
 
     use_effect(move || {
-        if (*parameter_state_6).len() == 0 {
+        if (*parameter_state_6).len() == 0 && (*error_msg_state_2).is_empty() {
             wasm_bindgen_futures::spawn_local(async move {
-                let jobs: Vec<Job> = Request::get(DATA_URL)
-                    .send()
-                    .await
-                    .unwrap()
-                    .json()
-                    .await
-                    .unwrap();
+                let jobs: Vec<Job> = match Request::get(DATA_URL).send().await {
+                    Ok(response) => match response.json().await {
+                        Ok(jobs) => jobs,
+                        Err(_e) => {
+                            error_msg_state_2.set(format!("Error fetching data"));
+                            return;
+                        }
+                    },
+                    Err(_e) => {
+                        error_msg_state_2.set(format!("Error reading data"));
+                        return;
+                    }
+                };
+
                 if jobs.len() < 1 {
+                    error_msg_state_2.set(format!("Error no data fetched"));
                     return;
                 }
                 jobs_state.set(jobs.clone());
@@ -179,6 +197,9 @@ fn App() -> Html {
     html! {
         <div class="container">
             <Header />
+            <div class={ format!("contentBlock w3-amber {}", if (*error_msg_state_3).clone().is_empty() { "hidden" } else { "" }) }>
+                { (*error_msg_state_3).clone() }
+            </div>
             <div class="w3-row firstRow">
                 <div class="w3-third contentBlock">
                     <form class="w3-container">
