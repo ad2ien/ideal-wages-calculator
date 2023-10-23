@@ -20,8 +20,8 @@ mod wages_param;
 
 const PARAMETERS_MEANING: i8 = 10;
 const DEFAULT_BASE_WAGES: i32 = 700;
-const CRITERIAS_URL: &str = "http://localhost:1984/criterias";
-const DATA_URL: &str = "http://localhost:1984/params";
+const CRITERIAS_URL: &str = "https://raw.githubusercontent.com/ad2ien/ideal-wages-calculator/main/criterias.json";
+const DATA_URL: &str = "https://raw.githubusercontent.com/ad2ien/ideal-wages-calculator/main/data.json";
 
 #[function_component]
 fn App() -> Html {
