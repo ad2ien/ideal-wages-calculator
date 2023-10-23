@@ -36,119 +36,110 @@ fn App() -> Html {
     let selected_job_state = use_state(|| "".to_string());
     let error_msg_state = use_state(|| "".to_string());
 
-    let result_state_2 = result_state.clone();
-    let result_state_3 = result_state.clone();
-    let result_state_4 = result_state.clone();
-    let result_state_5 = result_state.clone();
-    let result_state_6 = result_state.clone();
-    let result_state_7 = result_state.clone();
+    {
+        let parameter_state = parameter_state.clone();
+        let result_state = result_state.clone();
+        let error_msg_state = error_msg_state.clone();
+        let criterias_state = criterias_state.clone();
+        use_effect(move || {
+            if (*criterias_state).len() == 0 && (*error_msg_state).is_empty() {
+                wasm_bindgen_futures::spawn_local(async move {
+                    let fetched_criteria: Vec<Criteria> =
+                        match Request::get(CRITERIAS_URL).send().await {
+                            Ok(response) => match response.json().await {
+                                Ok(jobs) => jobs,
+                                Err(_e) => {
+                                    error_msg_state.set(format!("Error fetching criterias"));
+                                    return;
+                                }
+                            },
+                            Err(_e) => {
+                                error_msg_state.set(format!("Error reading criterias"));
+                                return;
+                            }
+                        };
+                    criterias_state.set(fetched_criteria.clone());
+                    result_state.set(compute_result(
+                        (*parameter_state).clone(),
+                        fetched_criteria.clone(),
+                        input_base_wages_state.clone(),
+                    ));
+                });
+                || ()
+            } else {
+                || ()
+            }
+        });
+    }
 
-    let criterias_state_2 = criterias_state.clone();
-    let criterias_state_3 = criterias_state.clone();
-    let criterias_state_4 = criterias_state.clone();
-    let criterias_state_6 = criterias_state.clone();
-    let criterias_state_7 = criterias_state.clone();
-    let criterias_state_8 = criterias_state.clone();
-
-    let parameter_state_2 = parameter_state.clone();
-    let parameter_state_3 = parameter_state.clone();
-    let parameter_state_4 = parameter_state.clone();
-    let parameter_state_5 = parameter_state.clone();
-    let parameter_state_6 = parameter_state.clone();
-    let parameter_state_7 = parameter_state.clone();
-    let parameter_state_8 = parameter_state.clone();
-
-    let jobs_box_state_2 = jobs_box_state.clone();
-
-    let selected_job_state_2 = selected_job_state.clone();
-    let selected_job_state_3 = selected_job_state.clone();
-
-    let jobs_state_2 = jobs_state.clone();
-
-    let error_msg_state_2 = error_msg_state.clone();
-    let error_msg_state_3: UseStateHandle<String> = error_msg_state.clone();
-
-    use_effect(move || {
-        if (*criterias_state).len() == 0 && (*error_msg_state).is_empty() {
-            wasm_bindgen_futures::spawn_local(async move {
-                let fetched_criteria: Vec<Criteria> = match Request::get(CRITERIAS_URL).send().await {
-                    Ok(response) => match response.json().await {
-                        Ok(jobs) => jobs,
+    {
+        let criterias_state = criterias_state.clone();
+        let error_msg_state = error_msg_state.clone();
+        let result_state = result_state.clone();
+        let parameter_state = parameter_state.clone();
+        let jobs_state = jobs_state.clone();
+        let selected_job_state = selected_job_state.clone();
+        let jobs_box_state = jobs_box_state.clone();
+        use_effect(move || {
+            if (*parameter_state).len() == 0 && (*error_msg_state).is_empty() {
+                wasm_bindgen_futures::spawn_local(async move {
+                    let jobs: Vec<Job> = match Request::get(DATA_URL).send().await {
+                        Ok(response) => match response.json().await {
+                            Ok(jobs) => jobs,
+                            Err(_e) => {
+                                error_msg_state.set(format!("Error fetching data"));
+                                return;
+                            }
+                        },
                         Err(_e) => {
-                            error_msg_state.set(format!("Error fetching criterias"));
+                            error_msg_state.set(format!("Error reading data"));
                             return;
                         }
-                    },
-                    Err(_e) => {
-                        error_msg_state.set(format!("Error reading criterias"));
+                    };
+
+                    if jobs.len() < 1 {
+                        error_msg_state.set(format!("Error no data fetched"));
                         return;
                     }
-                };
-                criterias_state.set(fetched_criteria.clone());
-                result_state_3.set(compute_result(
-                    (*parameter_state_5).clone(),
-                    fetched_criteria.clone(),
-                    input_base_wages_state.clone(),
-                ));
-            });
-            || ()
-        } else {
-            || ()
-        }
-    });
+                    jobs_state.set(jobs.clone());
+                    jobs_box_state.set(jobs.clone().into_iter().map(|job| job.job).collect());
+                    selected_job_state.set(jobs.first().unwrap().job.clone());
+                    parameter_state.set(jobs.first().unwrap().params.clone());
+                    result_state.set(compute_result(
+                        jobs.first().unwrap().params.clone(),
+                        (*criterias_state).clone(),
+                        input_base_wages_state.clone(),
+                    ));
+                });
+                || ()
+            } else {
+                || ()
+            }
+        });
+    }
 
-    use_effect(move || {
-        if (*parameter_state_6).len() == 0 && (*error_msg_state_2).is_empty() {
-            wasm_bindgen_futures::spawn_local(async move {
-                let jobs: Vec<Job> = match Request::get(DATA_URL).send().await {
-                    Ok(response) => match response.json().await {
-                        Ok(jobs) => jobs,
-                        Err(_e) => {
-                            error_msg_state_2.set(format!("Error fetching data"));
-                            return;
-                        }
-                    },
-                    Err(_e) => {
-                        error_msg_state_2.set(format!("Error reading data"));
-                        return;
-                    }
-                };
-
-                if jobs.len() < 1 {
-                    error_msg_state_2.set(format!("Error no data fetched"));
-                    return;
-                }
-                jobs_state.set(jobs.clone());
-                jobs_box_state.set(jobs.clone().into_iter().map(|job| job.job).collect());
-                selected_job_state.set(jobs.first().unwrap().job.clone());
-                parameter_state_6.set(jobs.first().unwrap().params.clone());
-                result_state_4.set(compute_result(
-                    jobs.first().unwrap().params.clone(),
-                    (*criterias_state_6).clone(),
-                    input_base_wages_state.clone(),
-                ));
-            });
-            || ()
-        } else {
-            || ()
-        }
-    });
     let on_param_value_slide: Callback<Vec<WagesParam>> = {
+        let criterias_state = criterias_state.clone();
+        let parameter_state = parameter_state.clone();
+        let result_state = result_state.clone();
         Callback::from(move |new_params: Vec<WagesParam>| {
-            parameter_state_2.set(new_params.clone());
-            result_state_2.set(compute_result(
+            parameter_state.set(new_params.clone());
+            result_state.set(compute_result(
                 new_params.clone(),
-                (*criterias_state_8).clone(),
+                (*criterias_state).clone(),
                 input_base_wages_state.clone(),
             ));
         })
     };
 
     let on_coef_slide: Callback<Vec<Criteria>> = {
+        let criterias_state = criterias_state.clone();
+        let parameter_state = parameter_state.clone();
+        let result_state = result_state.clone();
         Callback::from(move |new_coef: Vec<Criteria>| {
-            criterias_state_3.set(new_coef.clone());
-            result_state_5.set(compute_result(
-                (*parameter_state_8).clone(),
+            criterias_state.set(new_coef.clone());
+            result_state.set(compute_result(
+                (*parameter_state).clone(),
                 new_coef.clone(),
                 input_base_wages_state.clone(),
             ));
@@ -157,6 +148,9 @@ fn App() -> Html {
 
     let on_base_change = {
         let base_wages_handle = base_wages_state.clone();
+        let result_state = result_state.clone();
+        let parameter_state = parameter_state.clone();
+        let criterias_state = criterias_state.clone();
         Callback::from(move |e: InputEvent| {
             let target: Option<EventTarget> = e.target();
             let input = target.and_then(|t| t.dyn_into::<HtmlInputElement>().ok());
@@ -164,9 +158,9 @@ fn App() -> Html {
             if let Some(input) = input {
                 let base_wages = input.value().parse::<i32>().expect("expected number");
                 base_wages_handle.set(base_wages);
-                result_state_7.set(compute_result(
-                    (*parameter_state_4).clone(),
-                    (*criterias_state_4).clone(),
+                result_state.set(compute_result(
+                    (*parameter_state).clone(),
+                    (*criterias_state).clone(),
                     base_wages.clone(),
                 ));
             }
@@ -174,20 +168,25 @@ fn App() -> Html {
     };
 
     let on_job_select = {
+        let result_state = result_state.clone();
+        let parameter_state = parameter_state.clone();
+        let criterias_state = criterias_state.clone();
+        let selected_job_state = selected_job_state.clone();
+        let jobs_state = jobs_state.clone();
         Callback::from(move |e: Event| {
             let target: Option<EventTarget> = e.target();
             let input = target.and_then(|t| t.dyn_into::<HtmlSelectElement>().ok());
             if let Some(input) = input {
-                let new_job: Job = (*jobs_state_2)
+                let new_job: Job = (*jobs_state)
                     .clone()
                     .into_iter()
                     .find(|job| job.job == input.value())
                     .expect(format!("param not found : {} ", input.value()).as_str());
-                selected_job_state_2.set(new_job.job.clone());
-                parameter_state_7.set(new_job.params.clone());
-                result_state_6.set(compute_result(
+                selected_job_state.set(new_job.job.clone());
+                parameter_state.set(new_job.params.clone());
+                result_state.set(compute_result(
                     new_job.params.clone(),
-                    (*criterias_state_7).clone(),
+                    (*criterias_state).clone(),
                     input_base_wages_state.clone(),
                 ));
             }
@@ -197,8 +196,8 @@ fn App() -> Html {
     html! {
         <div class="container">
             <Header />
-            <div class={ format!("contentBlock w3-amber {}", if (*error_msg_state_3).clone().is_empty() { "hidden" } else { "" }) }>
-                { (*error_msg_state_3).clone() }
+            <div class={ format!("contentBlock w3-amber {}", if (*error_msg_state).clone().is_empty() { "hidden" } else { "" }) }>
+                { (*error_msg_state).clone() }
             </div>
             <div class="w3-row firstRow">
                 <div class="w3-third contentBlock">
@@ -220,9 +219,9 @@ fn App() -> Html {
                     <label>{ "Profile : "}</label>
                     <select class="w3-select" name="job" onchange={on_job_select}>
                         {
-                            for (*jobs_box_state_2).clone().into_iter().map(|job: String| {
+                            for (*jobs_box_state).clone().into_iter().map(|job: String| {
                                 html! {
-                                    <option selected={job.clone() == (*selected_job_state_3)} value={job.clone()}>{ job.clone() }</option>
+                                    <option selected={job.clone() == (*selected_job_state)} value={job.clone()}>{ job.clone() }</option>
                                 }
                             })
                         }
@@ -235,8 +234,8 @@ fn App() -> Html {
                 </div>
             </div>
             <JobSliders
-                wages_param={(*parameter_state_3).clone()}
-                criterias={(*criterias_state_2).clone()}
+                wages_param={(*parameter_state).clone()}
+                criterias={(*criterias_state).clone()}
                 on_parameter_slide={on_param_value_slide.clone()}
                 on_coef_slide={on_coef_slide.clone()} />
             <Footer />

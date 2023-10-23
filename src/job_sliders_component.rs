@@ -1,6 +1,10 @@
 use yew::prelude::*;
 
-use crate::{wages_param::WagesParam, criterias::Criteria, slider_component::{Slider, SliderMessage, SliderCoefMessage}};
+use crate::{
+    criterias::Criteria,
+    slider_component::{Slider, SliderCoefMessage, SliderMessage},
+    wages_param::WagesParam,
+};
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -12,13 +16,11 @@ pub struct Props {
 
 #[function_component]
 pub fn JobSliders(props: &Props) -> Html {
-
     let wages_param = props.wages_param.clone();
-    let wages_param_2 = props.wages_param.clone();
     let on_parameter_slide = props.on_parameter_slide.clone();
     let criterias = props.criterias.clone();
     let on_coef_slide: Callback<Vec<Criteria>> = props.on_coef_slide.clone();
-    
+
     let on_param_value_slide: Callback<SliderMessage> = {
         Callback::from(move |msg: SliderMessage| {
             let mut new_params = wages_param.clone();
@@ -31,7 +33,6 @@ pub fn JobSliders(props: &Props) -> Html {
         })
     };
 
-
     let on_coef_slide: Callback<SliderCoefMessage> = {
         Callback::from(move |msg: SliderCoefMessage| {
             let mut crit_state = criterias.clone();
@@ -43,9 +44,11 @@ pub fn JobSliders(props: &Props) -> Html {
             on_coef_slide.emit(crit_state);
         })
     };
-    
-    html! {
-        <div class="contentBlock">
+
+    {
+        let wages_param = props.wages_param.clone();
+        html! {
+            <div class="contentBlock">
             <div class="w3-row parameterHeader">
                 <div class="w3-half">{ "Criteria" }</div>
                 <div class="w3-quarter">{ "Mark" }</div>
@@ -55,7 +58,7 @@ pub fn JobSliders(props: &Props) -> Html {
                 <div>
                 {
                     for props.criterias.clone().into_iter().map(|criteria: Criteria| {
-                        let param = wages_param_2.clone().into_iter().find(|param| param.id == criteria.id).unwrap();
+                        let param = wages_param.clone().into_iter().find(|param| param.id == criteria.id).unwrap();
                         html! {
                             <div>
                                 <Slider on_parameter_slide={on_param_value_slide.clone()} on_coef_slide={on_coef_slide.clone()} wages_param={param} criteria={criteria} />
@@ -67,6 +70,7 @@ pub fn JobSliders(props: &Props) -> Html {
             } else {
                 <div>{"loading or data mismatch somewhere..."}</div>
             }
-        </div>
+            </div>
+        }
     }
 }

@@ -30,7 +30,6 @@ pub fn Slider(props: &Props) -> Html {
     let coef_value = (*coef_value_handle).clone();
 
     let wages_param = props.wages_param.clone();
-    let wages_param_2 = props.wages_param.clone();
     let criteria = props.criteria.clone();
 
     let cb_value_handle = props.on_parameter_slide.clone();
@@ -50,13 +49,14 @@ pub fn Slider(props: &Props) -> Html {
 
     let cb_coef_handle: Callback<SliderCoefMessage> = props.on_coef_slide.clone();
     let on_coef_change = {
+        let wages_param = props.wages_param.clone();
         Callback::from(move |e: InputEvent| {
             let input = e.target_dyn_into::<HtmlInputElement>();
 
             if let Some(input) = input {
                 coef_value_handle.set(input.value());
                 cb_coef_handle.emit(SliderCoefMessage {
-                    id: wages_param_2.id.to_string(),
+                    id: wages_param.id.to_string(),
                     coef: input.value().parse::<f64>().expect("expected number"),
                 });
             }
