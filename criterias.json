@@ -24,8 +24,8 @@
     "label": "How much pain I get from doing my job?",
     "description": {
       "general": "Pain could be effort, sweating, waiting in the cold or anything non pleasant and not damageable",
-      "min": "Slowly cooking while shoveling coal and being slapped in the face every 30 minutes",
-      "max": "You're in an quiet, air conditioned office"
+      "min": "You're in an quiet, air conditioned office",
+      "max": "Slowly cooking while shoveling coal and being slapped in the face every 30 minutes"
     }, 
     "coefficient": 1.2
   },
