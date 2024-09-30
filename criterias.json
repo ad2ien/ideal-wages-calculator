@@ -68,5 +68,15 @@
       "general": "You don't get points if your scholarship was paid for and you enjoyed your studies"
     },
      "coefficient": 1.0
+  },
+  {
+    "id": "🧑‍🏫",
+    "label": "How much social credit I lose?",
+    "description": {
+      "min": "Fireman, child brain surgeon",
+      "max": "Horse slaughter house worker",
+      "general": "If the image of your work affects the way people think of you"
+    },
+     "coefficient": 0.3
   }
 ]
