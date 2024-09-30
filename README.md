@@ -1,6 +1,6 @@
 # Ideal Wages Calculator 💸
 
-[![GitHub page sorkflow status](https://img.shields.io/github/actions/workflow/status/ad2ien/ideal-wages-calculator/deploy-gh-page.yml?label=github%20page&logo=github)](https://ad2ien.github.io/ideal-wages-calculator/)
+[![GitHub page workflow status](https://img.shields.io/github/actions/workflow/status/ad2ien/ideal-wages-calculator/deploy-gh-page.yml?label=github%20page&logo=github)](https://ad2ien.github.io/ideal-wages-calculator/)
 [![Rust](https://img.shields.io/badge/Rust-1.26.0-black.svg?logo=rust&logoColor=white)](https://www.rust-lang.org/)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg)](https://gitmoji.dev)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)

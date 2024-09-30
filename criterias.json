@@ -1,15 +1,5 @@
 [
   {
-    "id": "🤮",
-    "label": "How much I hate what I'm doing?",
-    "description": {
-      "general": "",
-      "min": "Everything at work is gross, nothing works and you hate every single thing you're doing",
-      "max": "You save the world, while doing something satisfying... and you think the world is worth saving"
-    },
-    "coefficient": 1.0
-  },
-  {
     "id": "🤕",
     "label": "How much I destroy my body at work?",
     "description": {
@@ -68,6 +58,16 @@
       "general": "You don't get points if your scholarship was paid for and you enjoyed your studies"
     },
      "coefficient": 1.0
+  },
+  {
+    "id": "🤮",
+    "label": "How much I hate what I'm doing?",
+    "description": {
+      "general": "Then for a same job, the wage would differ depending on the worker...",
+      "min": "Everything at work is gross, nothing works and you hate every single thing you're doing",
+      "max": "You save the world, while doing something satisfying... and you think the world is worth saving"
+    },
+    "coefficient": 1.0
   },
   {
     "id": "🧑‍🏫",
